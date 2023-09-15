@@ -7,7 +7,12 @@ import datetime
 import os
 
 dev_dictionaries = {
-    "E2318": "ALLCAN-4"
+    "E2309": "ALLCAN-S",
+    "E2310": "ALLCAN-Q",
+    "E2313": "BFLS",
+    "E2318": "ALLCAN-4",
+    "E2319": "ALLCAN-ENC",
+    "E2324": "ALLCAN-CMP"
 }
 
 can_net = canopen_tool()
