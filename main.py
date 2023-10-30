@@ -5,9 +5,9 @@ from canopen_tool import canopen_tool
 import time
 import datetime
 import os
-import logging
 
-logging.basicConfig(filename='printing.log', level=logging.DEBUG)
+import logging
+from logging.handlers import RotatingFileHandler
 
 dev_dictionaries = {
     "2309": "ALLCAN-S",
@@ -21,6 +21,21 @@ dev_dictionaries = {
 
 path = '/home/orangepi/ALLCAN-lable-print/'
 bitrate_decide = False
+
+def setup_logger(name, log_file, level=logging.INFO):
+    handler = RotatingFileHandler(log_file, maxBytes=1e8, backupCount=10)
+    formatter = logging.Formatter("%(message)s")
+    handler.setFormatter(formatter)
+
+    logger = logging.getLogger(name)
+    logger.setLevel(level)
+    if logger.hasHandlers():
+        logger.handlers.clear()
+    logger.addHandler(handler)
+    return logger
+
+voltage_log = setup_logger("main_voltage", f'{path}main_voltage.log')
+
 
 can_net = canopen_tool()
 
@@ -36,21 +51,21 @@ def callback():
     if nodes:
         can_net.add_node(nodes[0], f'{path}object.eds')
         lss = can_net.read_sn()
-        if not lss: return False
+        if not lss: 
+            voltage_log.error('SDO read lss error')
+            return False
     else:
-        print("find node error")
+        voltage_log.error("find node error")
         return False
-
-    print(lss)
 
     for k, v in dev_dictionaries.items():
         if k in str(lss[1]):
             msg = f"{dev_dictionaries[k]}/{lss[1]}/{datetime.date.today()}/{lss[0]}.{lss[1]}.{lss[2]}.{lss[3]}"
-            print(msg)
+            voltage_log.info(msg)
             label_printing.printing(msg, dev_dictionaries[k], lss[3], datetime.date.today())
-            logging.debug('msg')
             return True
         
+    voltage_log.error('device not in list')
     return False
     
 
