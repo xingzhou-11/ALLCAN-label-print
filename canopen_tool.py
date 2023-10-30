@@ -52,8 +52,8 @@ class canopen_tool:
         time.sleep(1)
         return self.network.scanner.nodes
 
-    def add_node(self, node_id):
-        self.node = self.network.add_node(node_id, 'objdict.eds')
+    def add_node(self, node_id, eds_path):
+        self.node = self.network.add_node(node_id, eds_path)
      
     def read_sn(self):
         try:
@@ -83,6 +83,6 @@ if __name__ == "__main__":
     can_net.connect_can_init()
     nodes = can_net.find_node()
     if nodes:
-        can_net.add_node(nodes[0])
+        can_net.add_node(nodes[0], '/home/orangepi/ALLCAN-lable-print/object.eds')
         print(can_net.read_unit_type()) 
 

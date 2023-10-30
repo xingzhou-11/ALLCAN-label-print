@@ -19,6 +19,7 @@ dev_dictionaries = {
     "2324": "ALLCAN-CMP"
 }
 
+path = '/home/orangepi/ALLCAN-lable-print/'
 bitrate_decide = False
 
 can_net = canopen_tool()
@@ -27,13 +28,13 @@ def callback():
     global bitrate_decide
 
     if not bitrate_decide:
-        os.system('/home/orangepi/ALLCAN-lable-print/find_node.sh')
+        os.system(f'{path}find_node.sh')
         bitrate_decide = True
 
     can_net.connect_can_init()
     nodes = can_net.find_node()
     if nodes:
-        can_net.add_node(nodes[0])
+        can_net.add_node(nodes[0], f'{path}object.eds')
         lss = can_net.read_sn()
         if not lss: return False
     else:
