@@ -20,7 +20,7 @@ class canopen_tool:
     def __init__(self):
         self.network = None
 
-    def connit_can(self, status):
+    def connect_can(self, status):
         try:
             self.network = canopen.Network()
             self.network.connect(channel='can0', bustype='socketcan')
@@ -28,10 +28,10 @@ class canopen_tool:
         except Exception as e:
             print(e)
 
-    def connit_can_init(self):
+    def connect_can_init(self):
         if self.network != None: return False
         status = [True]
-        t1 = StoppableThread(target=self.connit_can, args=([status,]))
+        t1 = StoppableThread(target=self.connect_can, args=([status,]))
         t1.start()
         time_out = time.time() + 5
         while t1.is_alive():
@@ -80,7 +80,7 @@ class canopen_tool:
 
 if __name__ == "__main__":
     can_net = canopen_tool()
-    can_net.connit_can_init()
+    can_net.connect_can_init()
     nodes = can_net.find_node()
     if nodes:
         can_net.add_node(nodes[0])
