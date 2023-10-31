@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 from gpio_read import opi_gpio
 from print_bmp import label_printing
 from canopen_tool import canopen_tool
@@ -19,7 +21,7 @@ dev_dictionaries = {
     "2324": "ALLCAN-CMP"
 }
 
-path = '/home/orangepi/ALLCAN-lable-print/'
+path = '/home/orangepi/ALLCAN-label-print/'
 bitrate_decide = False
 
 def setup_logger(name, log_file, level=logging.INFO):
@@ -76,7 +78,7 @@ if __name__ == "__main__":
     opi_gpio.out_init(16)
 
     while True:
-        val = opi_gpio.read_button(12, 1, callback)
+        val = opi_gpio.read_button(12, 2, callback)
         
         if val == None:
             pass

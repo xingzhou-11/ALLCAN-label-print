@@ -1,6 +1,6 @@
 #!/bin/bash
 
-candump can0 | grep --line-buffered "can0  7" > /home/orangepi/ALLCAN-lable-print/candump.log &
+candump can0 | grep --line-buffered "can0  7" > /home/orangepi/ALLCAN-label-print/candump.log &
 
 cansend can0 000#8100
 
@@ -12,7 +12,7 @@ sleep 2s
 # 关闭后台运行的 candump
 sudo kill -9 $pid
 
-if [ -s /home/orangepi/ALLCAN-lable-print/candump.log ]
+if [ -s /home/orangepi/ALLCAN-label-print/candump.log ]
 then
     echo "bitrate: 1000k"
 else

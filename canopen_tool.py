@@ -26,7 +26,7 @@ class canopen_tool:
             self.network.connect(channel='can0', bustype='socketcan')
             status[0] = False
         except Exception as e:
-            print(e)
+            print(f'connect can error: {e}')
 
     def connect_can_init(self):
         if self.network != None: return False
