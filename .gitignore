@@ -2,3 +2,4 @@
 *.pyc
 __pycache__
 candump.log
+main_voltage.log

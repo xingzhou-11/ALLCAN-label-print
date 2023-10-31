@@ -9,6 +9,12 @@ ALLCAN标签打印工具
     - GPIO12接收按钮信号
 
 # 服务配置
+- 安装 `Can-utils` 
+    ```
+    sudo apt-get update
+    sudo apt-get -y install can-utils
+    ```
+
 - 插上canable自动启动can服务
     - 在 `/etc/systemd/network` 下添加文件 `can0.network`（.network结尾就可以）
     - 文件中添加内容：
@@ -43,3 +49,7 @@ ALLCAN标签打印工具
         WantedBy=multi-user.target
         ```
         
+# 注意事项
+- 运行调试代码需要使用root权限
+- sudo 命令会导致程序在另外一片空间运行，导致找不到库（库都已经放在了文件夹下）
+- sudo -E 命令能够使程序强制跑在当前的空间，即可正常运行

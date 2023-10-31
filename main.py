@@ -26,7 +26,7 @@ bitrate_decide = False
 
 def setup_logger(name, log_file, level=logging.INFO):
     handler = RotatingFileHandler(log_file, maxBytes=1e8, backupCount=10)
-    formatter = logging.Formatter("%(message)s")
+    formatter = logging.Formatter("%(asctime)s %(message)s")
     handler.setFormatter(formatter)
 
     logger = logging.getLogger(name)
