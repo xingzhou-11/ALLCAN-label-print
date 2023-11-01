@@ -30,23 +30,20 @@ ALLCAN标签打印工具
         - sudo systemctl status systemd-networkd 查看状态
         - sudo systemctl start systemd-networkd 启动
         - sudo systemctl stop systemd-networkd 停止
+        - sudo systemctl disable main 取消开机启动
 
 - 主程序配置为开机启动
-    - 在 `/etc/systemd/system` 下添加文件 `main.service`
+    - 由于需要root权限运行，需要在root环境下安装所需要的python包
+        ```
+        su root
+
+        pip3 install canopen
+        ```
+    - 在 `/etc/rc.local` 文件中添加
     - 文件中添加内容
         ```
-        [Unit]
-        Description=My Custom Service
-        After=network.target
-
-        [Service]
-        Type=simple
-        ExecStart=/usr/bin/python3.8 /home/orangepi/ALLCAN-label-print/main.py
-        Restart=on-failure
-        RestartSec=5
-
-        [Install]
-        WantedBy=multi-user.target
+        sudo /usr/bin/python3 /home/orangepi/ALLCAN-label-print/main.py
+        exit 0
         ```
         
 # 注意事项
