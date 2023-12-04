@@ -54,6 +54,13 @@ class canopen_tool:
 
     def add_node(self, node_id, eds_path):
         self.node = self.network.add_node(node_id, eds_path)
+
+    def read_1008(self):
+        try:
+            return self.node.sdo[0x1008].data
+        except Exception as e:
+            print(e)
+            return False
      
     def read_sn(self):
         try:

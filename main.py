@@ -63,13 +63,20 @@ def callback():
     for k, v in dev_dictionaries.items():
         if k in str(lss[1]):
             msg = f"{dev_dictionaries[k]}/{lss[1]}/{datetime.date.today()}/{lss[0]}.{lss[1]}.{lss[2]}.{lss[3]}"
-            voltage_log.info(msg)
             label_printing.printing(msg, dev_dictionaries[k], lss[3], datetime.date.today())
+            voltage_log.info(msg)
             return True
-        
-    voltage_log.error('device not in list')
-    return False
-    
+
+    # 不动原先老的流程，在这边加新的逻辑，如果设备不在字典中，会走新的流程
+    name = can_net.read_1008()
+    if not name: 
+        voltage_log.error('SDO read name error')
+        return False
+    msg = f"{name}/{lss[1]}/{datetime.date.today()}/{lss[0]}.{lss[1]}.{lss[2]}.{lss[3]}"
+    label_printing.printing(msg, name, lss[3], datetime.date.today())
+    voltage_log.info(msg)
+    return True
+
 
 if __name__ == "__main__":
     opi_gpio.gpio_init(12)
